@@ -1,16 +1,16 @@
-function sprite() {
-	this.animationIndex = 0;
-	this.frameCount = 0;
-	this.frameWidth = 64;
-	this.frameHeight = 64;
-	this.height = 0;
-	this.width = 0;
-	this.image = null;
+class Sprite {
+	constructor() {
+		this.animationIndex = 0;
+		this.frameCount = 4; // This works for the knife-thrower, but it should be changed to something else.
+		this.frameWidth = 64;
+		this.frameHeight = 64;
+		this.height = 0;
+		this.width = 0;
+		this.image = null;
+	}	
 	
-	var self = this;
-	
-	this.hasLoaded = function() {
-		if (self.framesLoaded == self.frameImages.length) {
+	hasLoaded() {
+		if (this.framesLoaded == this.frameImages.length) {
 			return true;
 		}
 		else {
@@ -18,32 +18,32 @@ function sprite() {
 		}
 	}
 	
-	this.preLoadImage = function(source, frameWidth, frameHeight, callback) {
+	preLoadImage(source, frameWidth, frameHeight, callback) {
 		var image = new Image;
 			
 		image.onload = function() {
-			self.height = this.height;
-			self.width = this.width;
-			self.frameCount = 4; // This is for the knife thrower.  For everyone else, it seems like it should be: self.width / self.frameWidth;
+			this.height = this.height;
+			this.width = this.width;
+			this.frameCount = 4; // This is for the knife thrower.  For everyone else, it seems like it should be: this.width / this.frameWidth;
 			callback();
 		}
 		
 		image.src = source;
 		this.image = image;
-		self.frameWidth = frameWidth;
-		self.frameHeight = frameHeight;
+		this.frameWidth = frameWidth;
+		this.frameHeight = frameHeight;
 	}
-}
 
-sprite.prototype.render = function(context, x, y) {	
-	let sX = this.frameWidth * this.animationIndex;
-	let sY = 64; // This is so it shows the beathing animation for the knife thrower instead of the throwing animation.
-	context.drawImage(this.image, sX, sY, this.frameWidth, this.frameHeight, x, y, this.frameWidth, this.frameHeight);
-}
+	render(context, x, y) {	
+		let sX = this.frameWidth * this.animationIndex;
+		let sY = 64; // This is so it shows the beathing animation for the knife thrower instead of the throwing animation.
+		context.drawImage(this.image, sX, sY, this.frameWidth, this.frameHeight, x, y, this.frameWidth, this.frameHeight);
+	}
 
-sprite.prototype.update = function() {
-	this.animationIndex++;
-	if (this.animationIndex >= this.frameCount) {
-		this.animationIndex = 0;
+	update() {
+		this.animationIndex++;
+		if (this.animationIndex >= this.frameCount) {
+			this.animationIndex = 0;
+		}
 	}
 }

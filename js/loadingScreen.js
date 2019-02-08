@@ -1,31 +1,33 @@
-var loadingScreen = new function() {
-	var _canvas = null;
-	var _context = null;
-	var _sprites = null;	
+class LoadingScreen {
+	constructor() {
+		this.canvas = null;
+		this.context = null;
+		this.sprites = null;
+		this.interval = null;
+	}	
 	
-	var _self = this;
-	var _interval = null;
-	
-	this.loop = function() {
-		var horizontalCenter = _canvas.width / 2;
-		var verticalCenter = _canvas.height / 2;
+	loop() {
+		var horizontalCenter = this.canvas.width / 2;
+		var verticalCenter = this.canvas.height / 2;
 		
-		_context.clearRect(0, 0, _canvas.width, _canvas.height);
-		_context.textAlign = 'center';
-		_context.font = "8px 'Here Lies MECC'";
-		_context.fillStyle = 'white';		
-		_context.fillText('Loading...', horizontalCenter, 70);		
+		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		this.context.textAlign = 'center';
+		this.context.font = "8px 'Here Lies MECC'";
+		this.context.fillStyle = 'white';		
+		this.context.fillText('Loading...', horizontalCenter, 70);		
 	}
 	
-	this.end = function() {
-		clearInterval(_interval);
+	end() {
+		clearInterval(this.interval);
 	}
 	
-	this.start = function(canvas, context, sprites) {	
-		_canvas = canvas;
-		_context = context;
-		_sprites = sprites;
+	start(canvas, context, sprites) {	
+		this.canvas = canvas;
+		this.context = context;
+		this.sprites = sprites;
 	
-		_interval = setInterval(function() { _self.loop(); }, 200);
+		this.interval = setInterval(function() { window.loadingScreen.loop(); }, 200);
 	}
 }
+
+window.loadingScreen = new LoadingScreen();

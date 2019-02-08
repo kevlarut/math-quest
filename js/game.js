@@ -1,42 +1,40 @@
-var game = new function() {
+class Game {
+	constructor() {
+		this.canvas = document.getElementById('game');
+		this.context = this.canvas.getContext('2d');
+		this.frameRate = 3;
+		this.sprites = {};
+		this.staticImages = {};
+		this.self = this;
+		this.gameLoopInterval = null;
+		this.challenge = {
+			question: "995 x 9 = ?",
+			choices: shuffle([
+				{ value: "8955", correct: true},
+				{ value: "9959", correct: false},
+				{ value: "81815", correct: false},
+				{ value: "8945", correct: false}
+			])
+		};
+	}
 
-	this.touchHandler = null;
-
-	var canvas = null;
-	var context = null;
-	var frameRate = 3;
-	var sprites = {};
-	var staticImages = {};
-	//var background = {};
-	var self = this;
-	var gameLoopInterval = null;
-	var challenge = {
-		question: "995 x 9 = ?",
-		choices: shuffle([
-			{ value: "8955", correct: true},
-			{ value: "9959", correct: false},
-			{ value: "81815", correct: false},
-			{ value: "8945", correct: false}
-		])
-	};
-
-	var preLoadImages = function() {	
+	preLoadImages() {	
 		var countOfImagesToLoad = Object.keys(spriteAssets).length + Object.keys(staticImageAssets).length;
 		var loaded = 0;
 	
 		var callback = function() {			
 			if (++loaded >= countOfImagesToLoad) {
-				loadingScreen.end();
-				startGame();
+				window.loadingScreen.end();
+				window.game.startGame();
 			}
 		}
 		
 		for (var key in spriteAssets) {
 			if (spriteAssets.hasOwnProperty(key)) {
 				var spriteAsset = spriteAssets[key];
-				var currentSprite = new sprite();
+				var currentSprite = new Sprite();
 				currentSprite.preLoadImage(spriteAsset.file, spriteAsset.frameWidth, spriteAsset.frameHeight, callback);
-				sprites[key] = currentSprite;
+				this.sprites[key] = currentSprite;
 			}
 		}
 
@@ -48,87 +46,82 @@ var game = new function() {
 					callback();
 				}				
 				image.src = asset;
-				staticImages[key] = image;
+				this.staticImages[key] = image;
 			}
 		}
 	}
 				
-	this.gameLoop = function() {			
-		context.clearRect(0, 0, canvas.width, canvas.height);
+	gameLoop() {		
+		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 				
-		context.textAlign = 'left';
-		context.font = '8px "Here Lies MECC"';
-		context.fillStyle = 'white';
-		context.fillText('Math Quest', 0, 10);
+		this.context.textAlign = 'left';
+		this.context.font = '8px "Here Lies MECC"';
+		this.context.fillStyle = 'white';
+		this.context.fillText('Math Quest', 0, 10);
 		
-		context.drawImage(staticImages['plains-background'], 0, 20);
+		game.context.drawImage(game.staticImages['plains-background'], 0, 20);
 
-		sprites['knife-thrower'].render(context, 0, 20);
+		game.sprites['knife-thrower'].render(game.context, 0, 20);
 		
-		for (var key in sprites) {
-			if (sprites.hasOwnProperty(key)) {			
-				sprites[key].update();
+		for (var key in game.sprites) {
+			if (game.sprites.hasOwnProperty(key)) {			
+				game.sprites[key].update();
 			}
 		}
 
-		if (challenge) {
-			context.textAlign = 'left';
-			context.font = '8px "Here Lies MECC"';
-			context.fillStyle = 'white';
-			context.fillText(challenge.question, 0, 105);
+		if (game.challenge) {
+			game.context.textAlign = 'left';
+			game.context.font = '8px "Here Lies MECC"';
+			game.context.fillStyle = 'white';
+			game.context.fillText(game.challenge.question, 0, 105);
 			let ordinal = 1;
-			challenge.choices.forEach(choice => {
-				context.fillText(ordinal + ". " + choice.value, 0, 110 + 10 * ordinal);
+			game.challenge.choices.forEach(choice => {
+				game.context.fillText(ordinal + ". " + choice.value, 0, 110 + 10 * ordinal);
 				ordinal++;
 			});
 		}
-
-		//background.update();
 	}
 
-	var onMouseDown = function(event) {
+	onMouseDown(event) {
         event.preventDefault();
-		var x = event.pageX - canvas.offsetLeft;
-		var y = event.pageY - canvas.offsetTop;
-		handleTouchInput(x, y);
+		var x = event.pageX - this.canvas.offsetLeft;
+		var y = event.pageY - this.canvas.offsetTop;
+		this.handleTouchInput(x, y);
 	}
 	
-	var onTouchStart = function(event) {
+	onTouchStart(event) {
         event.preventDefault();
-		var x = event.targetTouches[0].pageX - canvas.offsetLeft;
-		var y = event.targetTouches[0].pageY - canvas.offsetTop;
-		handleTouchInput(x, y);
+		var x = event.targetTouches[0].pageX - this.canvas.offsetLeft;
+		var y = event.targetTouches[0].pageY - this.canvas.offsetTop;
+		this.handleTouchInput(x, y);
 	}
 	
-	var handleTouchInput = function(x, y) {
-		console.log('(' + x + ',' + y + ')');
-		if (self.touchHandler != null) {
-			self.touchHandler(x, y);
-		}
+	handleTouchInput(x, y) {
+		console.log('Touch input happened at (' + x + ',' + y + ')');		
 	}
 	
-	this.init = function() {
-		canvas = document.getElementById('game');		
-		context = canvas.getContext('2d');
-		loadingScreen.start(canvas, context, sprites);	
-		preLoadImages();
+	init() {
+		window.loadingScreen.start(this.canvas, this.context, this.sprites);	
+		this.preLoadImages();
 		
-		canvas.addEventListener("touchstart", onTouchStart, false);
-        canvas.addEventListener("mousedown", onMouseDown, false);
-        document.addEventListener("mousedown", onMouseDown, false);
+		this.canvas.addEventListener("touchstart", this.onTouchStart, false);
+        this.canvas.addEventListener("mousedown", this.onMouseDown, false);
+        document.addEventListener("mousedown", this.onMouseDown, false);
 	}
 
-	var startGame = function() {	
+	startGame() {	
 		window.document.onkeydown = function(event) {
 			// We can use this to accept global keyboard input, like pausing on ENTER or something.
 		}
 		this.touchHandler = null;
 		
-		self.gameLoop();
-		gameLoopInterval = setInterval(self.gameLoop, 1000 / frameRate);	
+		this.gameLoop();
+		let gameLoopInterval = setInterval(function() { window.game.gameLoop(); }, 1000 / this.frameRate);	
 	}
 }
 
 window.onload = function() {
+	let game = new Game();
+	window.game = game;
 	game.init();
 };
