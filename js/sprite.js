@@ -7,7 +7,10 @@ class Sprite {
 		this.height = 0;
 		this.width = 0;
 		this.image = null;
-	}	
+		
+		this.row = 0;
+		this.oneShotFramesRemaing = 0;
+	}
 	
 	hasLoaded() {
 		if (this.framesLoaded == this.frameImages.length) {
@@ -18,6 +21,12 @@ class Sprite {
 		}
 	}
 	
+	startOneShotAnimation(row, oneShotFramesRemaing) {
+		this.animationIndex = 0;		
+		this.row = row;
+		this.oneShotFramesRemaing = oneShotFramesRemaing;
+	}
+
 	preLoadImage(source, frameWidth, frameHeight, callback) {
 		var image = new Image;
 
@@ -37,13 +46,20 @@ class Sprite {
 
 	render(context, x, y) {	
 		let sX = this.frameWidth * this.animationIndex;
-		let sY = 0; // This will show the idle animation for the knife-thrower and the multiplication monster; we can increase this by 64 to get the attack animation.
+		let sY = this.frameHeight * this.row;
 		context.drawImage(this.image, sX, sY, this.frameWidth, this.frameHeight, x, y, this.frameWidth, this.frameHeight);
 	}
 
 	update() {
 		this.animationIndex++;
-		if (this.animationIndex >= this.frameCount) {
+
+		if (this.row > 0) {
+			this.oneShotFramesRemaing--;
+			if (this.oneShotFramesRemaing <= 0) {			
+				this.animationIndex = 0;
+				this.row = 0;
+			}
+		} else if (this.animationIndex >= this.frameCount) {
 			this.animationIndex = 0;
 		}
 	}

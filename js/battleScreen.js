@@ -52,6 +52,7 @@ class BattleScreen {
     
     doCorrectAnswer() {
         console.log("Correct answer!");
+        this.sprites["knife-thrower"].startOneShotAnimation(1, 6);
 
         this.monsterHealth -= 1;
         console.log("Monster health is now " + this.monsterHealth);
