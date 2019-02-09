@@ -7,15 +7,7 @@ class Game {
 		this.staticImages = {};
 		this.self = this;
 		this.gameLoopInterval = null;
-		this.challenge = {
-			question: "995 x 9 = ?",
-			choices: shuffle([
-				{ value: "8955", correct: true},
-				{ value: "9959", correct: false},
-				{ value: "81815", correct: false},
-				{ value: "8945", correct: false}
-			])
-		};
+		this.challenge = window.challengeGenerator.generateRandomIntegerMultiplicationChallenge();
 	}
 
 	preLoadImages() {	
@@ -50,43 +42,17 @@ class Game {
 			}
 		}
 	}
-				
+
 	gameLoop() {		
-		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-				
-		this.context.textAlign = 'left';
-		this.context.font = '8px "Here Lies MECC"';
-		this.context.fillStyle = 'white';
-		this.context.fillText('Math Quest', 0, 10);
-		
-		game.context.drawImage(game.staticImages['plains-background'], 0, 20);
-
-		game.sprites['knife-thrower'].render(game.context, 0, 20);
-		
-		for (var key in game.sprites) {
-			if (game.sprites.hasOwnProperty(key)) {			
-				game.sprites[key].update();
-			}
-		}
-
-		if (game.challenge) {
-			game.context.textAlign = 'left';
-			game.context.font = '8px "Here Lies MECC"';
-			game.context.fillStyle = 'white';
-			game.context.fillText(game.challenge.question, 0, 105);
-			let ordinal = 1;
-			game.challenge.choices.forEach(choice => {
-				game.context.fillText(ordinal + ". " + choice.value, 0, 110 + 10 * ordinal);
-				ordinal++;
-			});
-		}
+		window.battleScreen.loop();
 	}
 
 	onMouseDown(event) {
-        event.preventDefault();
+		//TODO
+        /*event.preventDefault();
 		var x = event.pageX - this.canvas.offsetLeft;
 		var y = event.pageY - this.canvas.offsetTop;
-		this.handleTouchInput(x, y);
+		this.handleTouchInput(x, y);*/
 	}
 	
 	onTouchStart(event) {
@@ -106,12 +72,17 @@ class Game {
 		
 		this.canvas.addEventListener("touchstart", this.onTouchStart, false);
         this.canvas.addEventListener("mousedown", this.onMouseDown, false);
-        document.addEventListener("mousedown", this.onMouseDown, false);
+		document.addEventListener("mousedown", this.onMouseDown, false);
+		
+		window.battleScreen = new BattleScreen(this.canvas, this.context, this.sprites, this.staticImages);
+		window.battleScreen.challenge = this.challenge;
 	}
 
 	startGame() {	
 		window.document.onkeydown = function(event) {
-			// We can use this to accept global keyboard input, like pausing on ENTER or something.
+			if (window.game.challenge) {
+				window.battleScreen.onKeyDown(event.keyCode);
+			}
 		}
 		this.touchHandler = null;
 		

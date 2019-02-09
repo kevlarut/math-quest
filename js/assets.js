@@ -3,6 +3,11 @@ var spriteAssets = {
 		file: 'img/knife-thrower.png',
 		frameHeight: 64,
 		frameWidth: 128
+	},
+	'multiplication-monster': {
+		file: 'img/multiplication-monster.png',
+		frameHeight: 64,
+		frameWidth: 128
 	}
 }
 

@@ -36,7 +36,7 @@ class Sprite {
 
 	render(context, x, y) {	
 		let sX = this.frameWidth * this.animationIndex;
-		let sY = 64; // This is so it shows the beathing animation for the knife thrower instead of the throwing animation.
+		let sY = 0; // This will show the idle animation for the knife-thrower and the multiplication monster; we can increase this by 64 to get the attack animation.
 		context.drawImage(this.image, sX, sY, this.frameWidth, this.frameHeight, x, y, this.frameWidth, this.frameHeight);
 	}
 
