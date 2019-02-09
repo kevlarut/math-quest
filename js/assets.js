@@ -4,6 +4,12 @@ var spriteAssets = {
 		frameHeight: 64,
 		frameWidth: 128
 	},
+	'health': {
+		file: 'img/health.png',
+		frameHeight: 16,
+		frameWidth: 8,
+		frameCount: 1
+	},
 	'knife-thrower': {
 		file: 'img/knife-thrower.png',
 		frameHeight: 64,

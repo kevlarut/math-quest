@@ -44,8 +44,13 @@ class Sprite {
 		this.frameHeight = frameHeight;
 	}
 
-	render(context, x, y) {	
-		let sX = this.frameWidth * this.animationIndex;
+	render(context, x, y) {
+		let frame = this.animationIndex;
+		this.renderFrame(context, frame, x, y);
+	}
+
+	renderFrame(context, frame, x, y) {
+		let sX = this.frameWidth * frame;
 		let sY = this.frameHeight * this.row;
 		context.drawImage(this.image, sX, sY, this.frameWidth, this.frameHeight, x, y, this.frameWidth, this.frameHeight);
 	}

@@ -20,17 +20,33 @@ class BattleScreen {
 
     loop() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-				
-		this.context.textAlign = 'left';
-		this.context.font = '8px "Here Lies MECC"';
-		this.context.fillStyle = 'white';
-		this.context.fillText('Math Quest', 0, 10);
 		
-		this.context.drawImage(this.staticImages['plains-background'], 0, 20);
+		this.context.drawImage(this.staticImages['clouds'], 0, 0);
+		this.context.drawImage(this.staticImages['grass'], 0, 60);
+		this.context.drawImage(this.staticImages['plains-background'], 0, 0);
 
-		this.sprites['knife-thrower'].render(this.context, 0, 20);
-		this.sprites[this.monsterType + "-monster"].render(this.context, 150, 20);
-		
+        for (let i = 0; i < 5; i++) {
+            let frame = 1;
+            if (this.playerHealth > i) {
+                frame = 0;
+            }
+            this.sprites['health'].renderFrame(this.context, frame, i * 7, 0);
+        }
+
+		this.sprites['knife-thrower'].render(this.context, 0, 16);
+		this.sprites[this.monsterType + "-monster"].render(this.context, 150, 16);
+                
+        for (let i = 2; i >= 0; i--) {
+            let frame = 1;
+            if (this.monsterHealth > i) {
+                frame = 0;
+            }
+            let rightBoundary = 272;
+            this.sprites['health'].renderFrame(this.context, frame, rightBoundary - i * 7, 0);
+        }
+
+		this.context.drawImage(this.staticImages['plains-foreground'], 0, 20);
+        
 		for (var key in this.sprites) {
 			if (this.sprites.hasOwnProperty(key)) {			
 				this.sprites[key].update();

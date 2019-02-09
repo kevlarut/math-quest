@@ -12,13 +12,13 @@ class MapScreen
         }
         this.monsters = [
             {
-                x: 15,
+                x: 12,
                 y: 10,
                 type: "division"
             },            
             {
-                x: 3,
-                y: 7,
+                x: 8,
+                y: 10,
                 type: "multiplication"
             }
         ];
