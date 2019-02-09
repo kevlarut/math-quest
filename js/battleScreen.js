@@ -5,9 +5,15 @@ class BattleScreen {
         this.sprites = sprites;
         this.staticImages = staticImages;
         this.challenge = null;
-        
+    }
+
+    startBattle() {
         this.playerHealth = 5;
         this.monsterHealth = 3;
+    }
+
+    loadChallenge(challenge) {
+        this.challenge = challenge;
     }
 
     loop() {
@@ -47,9 +53,12 @@ class BattleScreen {
 
         this.monsterHealth -= 1;
         console.log("Monster health is now " + this.monsterHealth);
-
-        window.game.challenge = window.challengeGenerator.generateRandomIntegerMultiplicationChallenge();
-        this.challenge = window.game.challenge;
+        if (this.monsterHealth <= 0) {
+            console.log("You get a reward.");
+            window.game.loadChallenge(null);
+        } else {
+            window.game.loadChallenge(window.challengeGenerator.generateRandomIntegerMultiplicationChallenge());
+        }
     }
 
     doWrongAnswer() {
@@ -60,6 +69,10 @@ class BattleScreen {
         } else {
             this.playerHealth -= 1;
             console.log("Player health is now " + this.playerHealth);
+        if (this.playerHealth <= 0) {
+            console.log("You get a penalty.");
+            window.game.challenge = null;
+        }
         }
     }
 

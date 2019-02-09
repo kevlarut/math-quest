@@ -17,8 +17,12 @@ class ChallengeGenerator {
             correct: true
         });
         for (let i = 0; i < 3; i++) {
+            let value;
+            do {
+                value = rightAnswerValue + random.int(-50, 100);
+            } while (value === rightAnswerValue);
             let wrongAnswer = {
-                value: rightAnswerValue + random.int(-50, 100),
+                value: value,
                 correct: false};
             answers.push(wrongAnswer);
         }

@@ -7,7 +7,12 @@ class Game {
 		this.staticImages = {};
 		this.self = this;
 		this.gameLoopInterval = null;
-		this.challenge = window.challengeGenerator.generateRandomIntegerMultiplicationChallenge();
+		this.challenge = null;
+	}
+
+	loadChallenge(challenge) {
+		this.challenge = challenge;
+		window.battleScreen.loadChallenge(challenge);
 	}
 
 	preLoadImages() {	
@@ -43,8 +48,12 @@ class Game {
 		}
 	}
 
-	gameLoop() {		
-		window.battleScreen.loop();
+	gameLoop() {
+		if (this.challenge)	{
+			window.battleScreen.loop();
+		} else {
+			window.mapScreen.loop();
+		}
 	}
 
 	onMouseDown(event) {
@@ -74,14 +83,22 @@ class Game {
         this.canvas.addEventListener("mousedown", this.onMouseDown, false);
 		document.addEventListener("mousedown", this.onMouseDown, false);
 		
+		window.mapScreen = new MapScreen(this.canvas, this.context, this.sprites, this.staticImages);
+
 		window.battleScreen = new BattleScreen(this.canvas, this.context, this.sprites, this.staticImages);
-		window.battleScreen.challenge = this.challenge;
+	}
+
+	startBattle() {
+        window.game.loadChallenge(window.challengeGenerator.generateRandomIntegerMultiplicationChallenge());
+		window.battleScreen.startBattle();
 	}
 
 	startGame() {	
 		window.document.onkeydown = function(event) {
 			if (window.game.challenge) {
 				window.battleScreen.onKeyDown(event.keyCode);
+			} else {
+				window.mapScreen.onKeyDown(event.keyCode);
 			}
 		}
 		this.touchHandler = null;
