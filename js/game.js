@@ -29,7 +29,7 @@ class Game {
 		for (var key in spriteAssets) {
 			if (spriteAssets.hasOwnProperty(key)) {
 				var spriteAsset = spriteAssets[key];
-				var currentSprite = new Sprite();
+				var currentSprite = new Sprite(spriteAsset.frameCount);
 				currentSprite.preLoadImage(spriteAsset.file, spriteAsset.frameWidth, spriteAsset.frameHeight, callback);
 				this.sprites[key] = currentSprite;
 			}
@@ -88,13 +88,15 @@ class Game {
 		window.battleScreen = new BattleScreen(this.canvas, this.context, this.sprites, this.staticImages);
 	}
 
-	startBattle() {
-        window.game.loadChallenge(window.challengeGenerator.generateRandomIntegerMultiplicationChallenge());
-		window.battleScreen.startBattle();
+	startBattle(monsterType) {
+		let challenge = window.challengeGenerator.generateRandomChallengeOfType(monsterType);
+        window.game.loadChallenge(challenge);
+		window.battleScreen.startBattle(monsterType);
 	}
 
 	startGame() {	
 		window.document.onkeydown = function(event) {
+			event.preventDefault();
 			if (window.game.challenge) {
 				window.battleScreen.onKeyDown(event.keyCode);
 			} else {

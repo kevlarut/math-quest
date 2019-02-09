@@ -1,7 +1,7 @@
 class Sprite {
-	constructor() {
+	constructor(frameCount) {
 		this.animationIndex = 0;
-		this.frameCount = 4; // This works for the knife-thrower, but it should be changed to something else.
+		this.frameCount = frameCount;
 		this.frameWidth = 64;
 		this.frameHeight = 64;
 		this.height = 0;
@@ -20,11 +20,12 @@ class Sprite {
 	
 	preLoadImage(source, frameWidth, frameHeight, callback) {
 		var image = new Image;
-			
+
+		let sprite = this;
 		image.onload = function() {
-			this.height = this.height;
-			this.width = this.width;
-			this.frameCount = 4; // This is for the knife thrower.  For everyone else, it seems like it should be: this.width / this.frameWidth;
+			sprite.height = this.height;
+			sprite.width = this.width;
+			sprite.frameCount = sprite.frameCount ? sprite.frameCount : Math.floor(sprite.width / sprite.frameWidth);
 			callback();
 		}
 		

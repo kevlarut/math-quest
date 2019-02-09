@@ -21,6 +21,11 @@ body {
 	text-align: center;
 }
 
+.canvasContainer {	
+    width: 100vw;
+    height: 100vh;
+}
+
 canvas {
 	background: black;	
 	min-width: 640px;

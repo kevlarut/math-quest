@@ -14,11 +14,12 @@ class MapScreen
             {
                 x: 15,
                 y: 10,
-            },
-            
+                type: "division"
+            },            
             {
                 x: 3,
                 y: 7,
+                type: "multiplication"
             }
         ];
         this.tileSize = 15;
@@ -33,8 +34,9 @@ class MapScreen
 		this.context.fillText('Math Quest', 0, 10);
                        
         this.context.fillText("P", this.player.x * this.tileSize, this.player.y * this.tileSize);
-        this.monsters.forEach(monster => {            
-            this.context.fillText("M", monster.x * this.tileSize, monster.y * this.tileSize);
+        this.monsters.forEach(monster => {  
+            let symbol = monster.type === "division" ? "D" : "M";
+            this.context.fillText(symbol, monster.x * this.tileSize, monster.y * this.tileSize);
         });
 
 		for (var key in this.sprites) {
@@ -81,7 +83,7 @@ class MapScreen
         let collisionOccurred = false;
         this.monsters.forEach(monster => {
             if (monster.x === x && monster.y === y) {
-                window.game.startBattle();
+                window.game.startBattle(monster.type);
                 collisionOccurred = true;
             }
         });

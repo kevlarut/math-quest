@@ -5,11 +5,13 @@ class BattleScreen {
         this.sprites = sprites;
         this.staticImages = staticImages;
         this.challenge = null;
+        this.monsterType = "multiplication";
     }
 
-    startBattle() {
+    startBattle(monsterType) {
         this.playerHealth = 5;
         this.monsterHealth = 3;
+        this.monsterType = monsterType;
     }
 
     loadChallenge(challenge) {
@@ -27,7 +29,7 @@ class BattleScreen {
 		this.context.drawImage(this.staticImages['plains-background'], 0, 20);
 
 		this.sprites['knife-thrower'].render(this.context, 0, 20);
-		this.sprites['multiplication-monster'].render(this.context, 160, 20);
+		this.sprites[this.monsterType + "-monster"].render(this.context, 150, 20);
 		
 		for (var key in this.sprites) {
 			if (this.sprites.hasOwnProperty(key)) {			
@@ -57,7 +59,7 @@ class BattleScreen {
             console.log("You get a reward.");
             window.game.loadChallenge(null);
         } else {
-            window.game.loadChallenge(window.challengeGenerator.generateRandomIntegerMultiplicationChallenge());
+            window.game.loadChallenge(window.challengeGenerator.generateRandomChallengeOfType(this.monsterType));
         }
     }
 
