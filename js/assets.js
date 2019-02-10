@@ -28,4 +28,8 @@ var staticImageAssets = {
 	'grass': 'img/grass.gif',
 	'plains-background': 'img/plains-background.gif',
 	'plains-foreground': 'img/plains-foreground.gif',
+	'plains-map': 'img/plains-map.png',
+	'knife-thrower-map': 'img/knife-thrower-map.png',
+	'multiplication-monster-map': 'img/multiplication-monster-map.png',
+	'division-monster-map': 'img/division-monster-map.png',
 }

@@ -88,10 +88,10 @@ class Game {
 		window.battleScreen = new BattleScreen(this.canvas, this.context, this.sprites, this.staticImages);
 	}
 
-	startBattle(monsterType) {
-		let challenge = window.challengeGenerator.generateRandomChallengeOfType(monsterType);
+	startBattle(monster) {
+		let challenge = window.challengeGenerator.generateRandomChallengeOfType(monster.type);
         window.game.loadChallenge(challenge);
-		window.battleScreen.startBattle(monsterType);
+		window.battleScreen.startBattle(monster);
 	}
 
 	startGame() {	

@@ -5,13 +5,13 @@ class BattleScreen {
         this.sprites = sprites;
         this.staticImages = staticImages;
         this.challenge = null;
-        this.monsterType = "multiplication";
+        this.monster = null;
     }
 
-    startBattle(monsterType) {
+    startBattle(monster) {
         this.playerHealth = 5;
         this.monsterHealth = 3;
-        this.monsterType = monsterType;
+        this.monster = monster;
     }
 
     loadChallenge(challenge) {
@@ -34,7 +34,7 @@ class BattleScreen {
         }
 
 		this.sprites['knife-thrower'].render(this.context, 0, 16);
-		this.sprites[this.monsterType + "-monster"].render(this.context, 150, 16);
+		this.sprites[this.monster.type + "-monster"].render(this.context, 150, 16);
                 
         for (let i = 2; i >= 0; i--) {
             let frame = 1;
@@ -67,27 +67,24 @@ class BattleScreen {
     }
     
     doCorrectAnswer() {
-        console.log("Correct answer!");
         this.sprites["knife-thrower"].startOneShotAnimation(1, 6);
 
         this.monsterHealth -= 1;
-        console.log("Monster health is now " + this.monsterHealth);
         if (this.monsterHealth <= 0) {
             console.log("You get a reward.");
+            window.mapScreen.removeMonster(this.monster);
             window.game.loadChallenge(null);
         } else {
-            window.game.loadChallenge(window.challengeGenerator.generateRandomChallengeOfType(this.monsterType));
+            window.game.loadChallenge(window.challengeGenerator.generateRandomChallengeOfType(this.monster.type));
         }
     }
 
     doWrongAnswer() {
-        console.log("Wrong answer!");
         let random = new Random();
         if (random.int(1, 8) === 8) {
             console.log("The monster missed!");
         } else {
             this.playerHealth -= 1;
-            console.log("Player health is now " + this.playerHealth);
         if (this.playerHealth <= 0) {
             console.log("You get a penalty.");
             window.game.challenge = null;

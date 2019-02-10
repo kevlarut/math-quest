@@ -20,7 +20,7 @@ class ChallengeGenerator {
         let random = new Random();
 
         let divisor = random.int(1, 10);
-        let quotient = random.int(min, 10);
+        let quotient = random.int(min, 100);
         let dividend = quotient * divisor;
         let rightAnswerValue = quotient;
 
