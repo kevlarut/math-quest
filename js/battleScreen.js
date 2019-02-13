@@ -19,7 +19,8 @@ class BattleScreen {
     }
 
     loop() {
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);        
+        window.textWriter.clear();
 		
 		this.context.drawImage(this.staticImages['clouds'], 0, 0);
 		this.context.drawImage(this.staticImages['grass'], 0, 60);
@@ -53,14 +54,12 @@ class BattleScreen {
 			}
 		}
 
-		if (this.challenge) {
-			this.context.textAlign = 'left';
-			this.context.font = '8px "Here Lies MECC"';
-			this.context.fillStyle = 'white';
-			this.context.fillText(this.challenge.question, 0, 105);
+		if (this.challenge) {            
+            window.textWriter.write(this.challenge.question, 0, 105, "white");
+
 			let ordinal = 1;
 			this.challenge.choices.forEach(choice => {
-				this.context.fillText(ordinal + ". " + choice.value, 0, 110 + 10 * ordinal);
+                window.textWriter.write(ordinal + ". " + choice.value, 0, 110 + 10 * ordinal, "white");
 				ordinal++;
 			});
 		}

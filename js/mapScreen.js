@@ -19,13 +19,11 @@ class MapScreen
     }
 
     loop() {
+        window.textWriter.clear();
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);        
 		this.context.drawImage(this.staticImages['plains-map'], 0, 0);
-				
-		this.context.textAlign = 'left';
-		this.context.font = '8px "Here Lies MECC"';
-		this.context.fillStyle = 'black';
-		this.context.fillText('Math Quest', 10, 10);
+				        
+        window.textWriter.write("Math Quest", 10, 10, "black");
                              
         this.context.drawImage(this.staticImages['knife-thrower-map'], this.player.x * this.tileSize - 8, this.player.y * this.tileSize - 8);
         

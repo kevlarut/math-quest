@@ -10,11 +10,9 @@ class LoadingScreen {
 		var horizontalCenter = this.canvas.width / 2;
 		var verticalCenter = this.canvas.height / 2;
 		
-		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-		this.context.textAlign = 'center';
-		this.context.font = "8px 'Here Lies MECC'";
-		this.context.fillStyle = 'white';		
-		this.context.fillText('Loading...', horizontalCenter, 70);		
+		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);		
+		window.textWriter.clear();
+		window.textWriter.writeCentered("Loading...", horizontalCenter, 70, "white");
 	}
 	
 	end() {
