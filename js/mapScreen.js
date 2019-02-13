@@ -86,11 +86,24 @@ class MapScreen
         let random = new Random();
         let x = random.int(1, 17);
         let y = random.int(2, 12);
+        let color;
+        switch (monsterType) {
+            case "division":
+                color = "#361F4D";
+                break;
+            case "multiplication":
+                color = "#A91E28";
+                break;
+            default:
+                color = "red";
+                break;
+        }
 
         let monster = {
             x: x,
             y: y,
-            type: monsterType
+            type: monsterType,
+            color: color
         }
         this.monsters.push(monster);
     }
