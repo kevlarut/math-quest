@@ -54,6 +54,8 @@ class Game {
 		} else {
 			window.mapScreen.loop();
 		}
+
+		this.displayStatusMessage();
 	}
 
 	onMouseDown(event) {
@@ -107,6 +109,30 @@ class Game {
 		
 		this.gameLoop();
 		let gameLoopInterval = setInterval(function() { window.game.gameLoop(); }, 1000 / this.frameRate);	
+	}
+
+	displayStatusMessage() {
+		if (this.statusMessage) {
+			if (Date.now() > this.statusMessageEndTime) {
+				this.statusMessage = null;
+				this.statusMessageEndTime = null;
+			}
+			else {				
+				let boxWidth = this.statusMessage.length * 8 + 10;
+
+				let pixelHorizontalCenter = 140;
+				this.context.fillStyle = "black";
+				this.context.fillRect(pixelHorizontalCenter - boxWidth / 2, 0, boxWidth, 15);
+
+				var textHorizontalCenter = this.canvas.width / 2;
+				window.textWriter.writeCentered(this.statusMessage, textHorizontalCenter, 10, "white");
+			}
+		}
+	}
+
+	setStatusMessage(message) {
+		this.statusMessage = message;
+		this.statusMessageEndTime = Date.now() + 3000;
 	}
 }
 

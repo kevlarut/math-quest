@@ -10,14 +10,14 @@ class Player {
             gold = this.gold;
         }
         this.gold -= gold;
-        console.log("You lost " + gold + " gold pieces.");
+        window.game.setStatusMessage("You lost " + gold + " gold pieces.");
     }
 
     reward() {        
         let random = new Random();
         let gold = random.int(5, 25);
         this.gold += gold;
-        console.log("You earned " + gold + " gold pieces.");
+        window.game.setStatusMessage("You earned " + gold + " gold pieces.");
     }
 }
 

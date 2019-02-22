@@ -70,6 +70,7 @@ class BattleScreen {
     }
     
     doCorrectAnswer() {
+        window.game.setStatusMessage("Right answer!  Good job!");
         this.sprites["knife-thrower"].startOneShotAnimation(1, 6);
 
         this.monsterHealth -= 1;
@@ -83,9 +84,10 @@ class BattleScreen {
     }
 
     doWrongAnswer() {
+        window.game.setStatusMessage("Wrong answer!");
         let random = new Random();
-        if (random.int(1, 8) === 8) {
-            console.log("The monster missed!");
+        if (random.int(1, 8) === 8) {            
+            window.game.setStatusMessage("The monster missed!");
         } else {
             this.playerHealth -= 1;
         if (this.playerHealth <= 0) {
