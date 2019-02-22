@@ -24,6 +24,7 @@ class MapScreen
 		this.context.drawImage(this.staticImages['plains-map'], 0, 0);
 				        
         window.textWriter.write("Math Quest", 10, 10, "black");
+        window.textWriter.write("Gold: " + window.player.gold, 235 - 8 * window.player.gold.toString().length, 10, "black");
                              
         this.context.drawImage(this.staticImages['knife-thrower-map'], this.player.x * this.tileSize - 8, this.player.y * this.tileSize - 8);
         

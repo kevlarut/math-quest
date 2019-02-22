@@ -74,7 +74,7 @@ class BattleScreen {
 
         this.monsterHealth -= 1;
         if (this.monsterHealth <= 0) {
-            console.log("You get a reward.");
+            window.player.reward();
             window.mapScreen.removeMonster(this.monster);
             window.game.loadChallenge(null);
         } else {
@@ -89,7 +89,7 @@ class BattleScreen {
         } else {
             this.playerHealth -= 1;
         if (this.playerHealth <= 0) {
-            console.log("You get a penalty.");
+            window.player.penalize();
             window.game.challenge = null;
         }
         }
