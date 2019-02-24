@@ -150,7 +150,7 @@ class MapScreen
                 break;
             }
         }
-        this.mapObject.splice(index, 1);
+        this.mapObjects.splice(index, 1);
         this.generateRandomMonsterOfType(monster.monsterType);
     }
 }
