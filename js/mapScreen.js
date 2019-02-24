@@ -3,28 +3,44 @@ class MapScreen
     constructor(canvas, context, sprites, staticImages) {
         this.canvas = canvas;
         this.context = context;
+        this.mapObjects = [];
         this.sprites = sprites;
         this.staticImages = staticImages;
         let random = new Random();
 
-        this.player = {
-            x: 10,
-            y: 10
-        }
-        this.monsters = [];
+        this.player = new MapObject(10, 10, 8, 8, 'knife-thrower-map');
+        this.mapObjects.push(this.player);
         
         this.generateRandomMonsterOfType("division");
+        this.generateRandomMonsterOfType("division");
+        this.generateRandomMonsterOfType("multiplication");
         this.generateRandomMonsterOfType("multiplication");
 
         this.tileSize = 15;
-
-        this.trees = [];
+        
         for (let i = 0; i < 4; i++) {
-            this.trees.push({                
-                x: random.int(1, 15),
-                y: random.int(2, 15)
-            });
+            let x = random.int(1, 15);
+            let y = random.int(2, 15);
+            let tree = new MapObject(x, y, 32, 40, 'acacia-tree');
+            this.mapObjects.push(tree);
         }
+        this.sortMapObjects();
+    }
+
+    sortMapObjects() {
+        this.mapObjects.sort(function(a, b){
+            if (a.y === b.y) {
+                if (a.assetKey === "knife-thrower-map") {
+                    return 1;
+                } else if (b.assetKey === "knife-thrower-map") {
+                    return - 1;
+                } else {
+                    return a.hasOwnProperty("monsterType") ? 1 : -1;
+                }
+            } else {
+                return a.y - b.y;
+            }
+        });
     }
 
     loop() {
@@ -32,21 +48,15 @@ class MapScreen
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);        
         this.context.drawImage(this.staticImages['plains-map'], 0, 0);
         
-        this.trees.forEach(tree => {
-            let x = tree.x * this.tileSize - 32;
-            let y = tree.y * this.tileSize - 40;
-            this.context.drawImage(this.staticImages['acacia-tree'], x, y);
+        this.mapObjects.forEach(object => {
+            let x = object.x * this.tileSize - 32;
+            let y = object.y * this.tileSize - 40;
+            object.render(this.context, this.staticImages, this.tileSize);
         });
 				        
         window.textWriter.write("Math Quest", 10, 10, "black");
         window.textWriter.write("Gold: " + window.player.gold, 235 - 8 * window.player.gold.toString().length, 10, "black");
-                            
-        this.context.drawImage(this.staticImages['knife-thrower-map'], this.player.x * this.tileSize - 8, this.player.y * this.tileSize - 8);
-        
-        this.monsters.forEach(monster => {  
-            this.context.drawImage(this.staticImages[monster.type + '-monster-map'], monster.x * this.tileSize - 8, monster.y * this.tileSize - 8);
-        });
-
+                                    
 		for (var key in this.sprites) {
 			if (this.sprites.hasOwnProperty(key)) {			
 				this.sprites[key].update();
@@ -60,6 +70,7 @@ class MapScreen
                 if (this.player.y > 2) {                    
                     if (!this.detectMonsterCollision(this.player.x, this.player.y - 1)) {
                         this.player.y--;
+                        this.sortMapObjects();
                     }
                 }
                 break;
@@ -67,6 +78,7 @@ class MapScreen
                 if (this.player.y < 12) {
                     if (!this.detectMonsterCollision(this.player.x, this.player.y + 1)) {
                         this.player.y++;
+                        this.sortMapObjects();
                     }
                 }
                 break;
@@ -74,6 +86,7 @@ class MapScreen
                 if (this.player.x < 17) {
                     if (!this.detectMonsterCollision(this.player.x + 1, this.player.y)) {
                         this.player.x++;
+                        this.sortMapObjects();
                     }
                 }
                 break;
@@ -81,6 +94,7 @@ class MapScreen
                 if (this.player.x > 1) {
                     if (!this.detectMonsterCollision(this.player.x - 1, this.player.y)) {
                         this.player.x--;
+                        this.sortMapObjects();
                     }
                 }
                 break;
@@ -89,9 +103,9 @@ class MapScreen
 
     detectMonsterCollision(x, y) {
         let collisionOccurred = false;
-        this.monsters.forEach(monster => {
-            if (monster.x === x && monster.y === y) {
-                window.game.startBattle(monster);
+        this.mapObjects.forEach(mapObject => {
+            if (mapObject.hasOwnProperty("monsterType") && mapObject.x === x && mapObject.y === y) {
+                window.game.startBattle(mapObject);
                 collisionOccurred = true;
             }
         });
@@ -115,24 +129,24 @@ class MapScreen
                 break;
         }
 
-        let monster = {
-            x: x,
-            y: y,
-            type: monsterType,
-            color: color
-        }
-        this.monsters.push(monster);
+        let monster = new MapObject(x, y, 8, 8, monsterType + '-monster-map');
+        monster.color = color;
+        monster.monsterType = monsterType;
+
+        this.mapObjects.push(monster);
+        this.sortMapObjects();
     }
 
     removeMonster(monster) {
         let index = 0;
-        for (let i = 0; i < this.monsters.length; i++) {
-            if (this.monsters[i].x === monster.x && this.monsters[i].y === monster.y) {
+        for (let i = 0; i < this.mapObjects.length; i++) {
+            let mapObject = this.mapObjects[i];
+            if (mapObject.hasOwnProperty("monsterType") && mapObject.x === monster.x && mapObject.y === monster.y) {
                 index = i;
                 break;
             }
         }
-        this.monsters.splice(index, 1);
+        this.mapObject.splice(index, 1);
         this.generateRandomMonsterOfType(monster.type);
     }
 }

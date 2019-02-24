@@ -35,7 +35,7 @@ class BattleScreen {
         }
 
 		this.sprites['knife-thrower'].render(this.context, 0, 16);
-		this.sprites[this.monster.type + "-monster"].render(this.context, 150, 16);
+		this.sprites[this.monster.monsterType + "-monster"].render(this.context, 150, 16);
                 
         for (let i = 2; i >= 0; i--) {
             let frame = 1;
