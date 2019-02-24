@@ -56,7 +56,8 @@ class BattleScreen {
 
         this.context.fillStyle = this.monster.color;
         this.context.fillRect(0, 80, 280, 10);
-        window.textWriter.write("A " + this.monster.monsterType + " monster appears!", 0, 89, "white");
+        let article = /[aeiouh]/.test(this.monster.monsterType[0]) ? "An" : "A";
+        window.textWriter.write(article + " " + this.monster.monsterType + " monster appears!", 0, 89, "white");
 
 		if (this.challenge) {            
             window.textWriter.write(this.challenge.question, 0, 105, "white");
@@ -100,6 +101,7 @@ class BattleScreen {
     onKeyDown(keyCode) {
         switch (keyCode) {
             case keyboard.ONE:
+            case keyboard.A:
                 if (this.challenge.choices[0].correct) {
                     this.doCorrectAnswer();
                 } else {
@@ -107,6 +109,7 @@ class BattleScreen {
                 }
                 break;
             case keyboard.TWO:
+            case keyboard.B:
                 if (this.challenge.choices[1].correct) {
                     this.doCorrectAnswer();
                 } else {
@@ -114,6 +117,7 @@ class BattleScreen {
                 }
                 break;
             case keyboard.THREE:
+            case keyboard.C:
                 if (this.challenge.choices[2].correct) {
                     this.doCorrectAnswer();
                 } else {
@@ -121,13 +125,21 @@ class BattleScreen {
                 }
                 break;
             case keyboard.FOUR:
+            case keyboard.D:
                 if (this.challenge.choices[3].correct) {
                     this.doCorrectAnswer();
                 } else {
                     this.doWrongAnswer();
                 }
                 break;
-
+            case keyboard.FIVE:
+            case keyboard.E:
+                if (this.challenge.choices[4].correct) {
+                    this.doCorrectAnswer();
+                } else {
+                    this.doWrongAnswer();
+                }
+                break;
         }
     }
 }

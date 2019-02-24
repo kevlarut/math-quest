@@ -7,12 +7,47 @@ class ChallengeGenerator {
 		switch (monsterType) {
 			case "division":			
 				challenge = window.challengeGenerator.generateRandomIntegerDivisionChallenge();
-				break;
+                break;
+            case "inequality":
+                challenge = window.challengeGenerator.generateRandomInequalityChallenge();
+                break;
 			default:
 				challenge = window.challengeGenerator.generateRandomIntegerMultiplicationChallenge();
 				break;
         }
         return challenge;
+    }
+
+    generateRandomInequalityChallenge() {
+        
+        let random = new Random();
+        let a = random.int(-50, 10);
+        let b = random.int(-50, 10);
+
+        let question = a + " ? " + b;
+        let answers = [];
+        answers.push({
+            value: "<",
+            correct: a < b
+        });
+        answers.push({
+            value: ">",
+            correct: a > b
+        });
+        answers.push({
+            value: "=",
+            correct: a === b
+        });
+        answers.push({
+            value: "<=",
+            correct: a <= b
+        });
+        answers.push({
+            value: ">=",
+            correct: a >= b
+        });
+        
+        return new Challenge(question, shuffle(answers));
     }
 
     generateRandomIntegerDivisionChallenge() {

@@ -20,6 +20,11 @@ var spriteAssets = {
 		file: 'img/multiplication-monster.png',
 		frameHeight: 64,
 		frameWidth: 128
+	},
+	'inequality-monster': {
+		file: 'img/inequality-monster.png',
+		frameHeight: 64,
+		frameWidth: 128
 	}
 }
 
@@ -32,6 +37,7 @@ var staticImageAssets = {
 	'knife-thrower-map': 'img/knife-thrower-map.png',
 	'multiplication-monster-map': 'img/multiplication-monster-map.png',
 	'division-monster-map': 'img/division-monster-map.png',
+	'inequality-monster-map': 'img/inequality-monster-map.png',
 	'acacia-tree': 'img/acacia-tree.png',
 	'pond': 'img/pond.png'
 }

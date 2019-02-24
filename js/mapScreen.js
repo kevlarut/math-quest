@@ -11,10 +11,11 @@ class MapScreen
         this.player = new MapObject(10, 10, 8, 8, 'knife-thrower-map');
         this.mapObjects.push(this.player);
         
-        this.generateRandomMonsterOfType("division");
-        this.generateRandomMonsterOfType("division");
-        this.generateRandomMonsterOfType("multiplication");
-        this.generateRandomMonsterOfType("multiplication");
+        for (let i = 0; i < 2; i++) {
+            this.generateRandomMonsterOfType("division");
+            this.generateRandomMonsterOfType("multiplication");
+            this.generateRandomMonsterOfType("inequality");
+        }
 
         this.tileSize = 15;
         
@@ -127,6 +128,9 @@ class MapScreen
                 break;
             case "multiplication":
                 color = "#A91E28";
+                break;
+            case "inequality":
+                color = "black";
                 break;
             default:
                 color = "red";
