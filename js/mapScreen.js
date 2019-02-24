@@ -24,6 +24,10 @@ class MapScreen
             let tree = new MapObject(x, y, 32, 40, 'acacia-tree');
             this.mapObjects.push(tree);
         }
+
+        let pond = new MapObject(random.int(1, 15), random.int(1, 12), 32, 8, 'pond');
+        this.mapObjects.push(pond);
+
         this.sortMapObjects();
     }
 
@@ -33,12 +37,12 @@ class MapScreen
                 if (a.assetKey === "knife-thrower-map") {
                     return 1;
                 } else if (b.assetKey === "knife-thrower-map") {
-                    return - 1;
+                    return -1;
                 } else {
-                    return a.hasOwnProperty("monsterType") ? 1 : -1;
+                    return a.id > b.id ? 1 : -1;
                 }
             } else {
-                return a.y - b.y;
+                return a.y > b.y ? 1 : -1;
             }
         });
     }

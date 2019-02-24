@@ -5,6 +5,9 @@ class MapObject {
         this.offsetX = offsetX;
         this.offsetY = offsetY;
         this.assetKey = assetKey;
+        
+        let random = new Random();
+        this.id = random.int(1, 5000);
     }
 
     render(context, staticImages, tileSize) {
