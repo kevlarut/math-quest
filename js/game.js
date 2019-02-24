@@ -91,7 +91,7 @@ class Game {
 	}
 
 	startBattle(monster) {
-		let challenge = window.challengeGenerator.generateRandomChallengeOfType(monster.type);
+		let challenge = window.challengeGenerator.generateRandomChallengeOfType(monster.monsterType);
         window.game.loadChallenge(challenge);
 		window.battleScreen.startBattle(monster);
 	}

@@ -147,6 +147,6 @@ class MapScreen
             }
         }
         this.mapObject.splice(index, 1);
-        this.generateRandomMonsterOfType(monster.type);
+        this.generateRandomMonsterOfType(monster.monsterType);
     }
 }

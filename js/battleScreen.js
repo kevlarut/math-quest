@@ -56,7 +56,7 @@ class BattleScreen {
 
         this.context.fillStyle = this.monster.color;
         this.context.fillRect(0, 80, 280, 10);
-        window.textWriter.write("A " + this.monster.type + " monster appears!", 0, 89, "white");
+        window.textWriter.write("A " + this.monster.monsterType + " monster appears!", 0, 89, "white");
 
 		if (this.challenge) {            
             window.textWriter.write(this.challenge.question, 0, 105, "white");
@@ -79,7 +79,7 @@ class BattleScreen {
             window.mapScreen.removeMonster(this.monster);
             window.game.loadChallenge(null);
         } else {
-            window.game.loadChallenge(window.challengeGenerator.generateRandomChallengeOfType(this.monster.type));
+            window.game.loadChallenge(window.challengeGenerator.generateRandomChallengeOfType(this.monster.monsterType));
         }
     }
 
