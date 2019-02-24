@@ -5,6 +5,7 @@ class MapScreen
         this.context = context;
         this.sprites = sprites;
         this.staticImages = staticImages;
+        let random = new Random();
 
         this.player = {
             x: 10,
@@ -16,16 +17,30 @@ class MapScreen
         this.generateRandomMonsterOfType("multiplication");
 
         this.tileSize = 15;
+
+        this.trees = [];
+        for (let i = 0; i < 4; i++) {
+            this.trees.push({                
+                x: random.int(1, 15),
+                y: random.int(2, 15)
+            });
+        }
     }
 
     loop() {
         window.textWriter.clear();
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);        
-		this.context.drawImage(this.staticImages['plains-map'], 0, 0);
+        this.context.drawImage(this.staticImages['plains-map'], 0, 0);
+        
+        this.trees.forEach(tree => {
+            let x = tree.x * this.tileSize - 32;
+            let y = tree.y * this.tileSize - 40;
+            this.context.drawImage(this.staticImages['acacia-tree'], x, y);
+        });
 				        
         window.textWriter.write("Math Quest", 10, 10, "black");
         window.textWriter.write("Gold: " + window.player.gold, 235 - 8 * window.player.gold.toString().length, 10, "black");
-                             
+                            
         this.context.drawImage(this.staticImages['knife-thrower-map'], this.player.x * this.tileSize - 8, this.player.y * this.tileSize - 8);
         
         this.monsters.forEach(monster => {  

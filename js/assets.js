@@ -32,4 +32,5 @@ var staticImageAssets = {
 	'knife-thrower-map': 'img/knife-thrower-map.png',
 	'multiplication-monster-map': 'img/multiplication-monster-map.png',
 	'division-monster-map': 'img/division-monster-map.png',
+	'acacia-tree': 'img/acacia-tree.png'
 }

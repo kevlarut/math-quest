@@ -62,7 +62,7 @@ class ChallengeGenerator {
         for (let i = 0; i < 3; i++) {
             let value;
             do {
-                value = rightAnswerValue + random.int(-50, 100);
+                value = rightAnswerValue + random.int(-20, 50);
             } while (value === rightAnswerValue);
             let wrongAnswer = {
                 value: value,
