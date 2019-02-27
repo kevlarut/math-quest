@@ -59,7 +59,7 @@ class MapScreen
             object.render(this.context, this.staticImages, this.tileSize);
         });
 				        
-        window.textWriter.write("Math Quest", 10, 10, "black");
+        window.textWriter.write("Epic Math Quest", 10, 10, "black");
         window.textWriter.write("Gold: " + window.player.gold, 235 - 8 * window.player.gold.toString().length, 10, "black");
                                     
 		for (var key in this.sprites) {
