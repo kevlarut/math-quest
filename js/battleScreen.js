@@ -142,4 +142,18 @@ class BattleScreen {
                 break;
         }
     }
+
+    onTouchInput(x, y) {
+        let ordinal = Math.round((y - 110) / 10);
+
+        let challenge = window.battleScreen.challenge;
+        if (ordinal >= 1 && challenge.choices.length >= ordinal) {
+            let choice = challenge.choices[ordinal - 1];
+            if (choice.correct) {
+                window.battleScreen.doCorrectAnswer();
+            } else {
+                window.battleScreen.doWrongAnswer();
+            }
+        }
+    }
 }

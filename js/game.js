@@ -67,23 +67,35 @@ class Game {
 	}
 	
 	onTouchStart(event) {
-        event.preventDefault();
-		var x = event.targetTouches[0].pageX - this.canvas.offsetLeft;
-		var y = event.targetTouches[0].pageY - this.canvas.offsetTop;
-		this.handleTouchInput(x, y);
+		event.preventDefault();
+		
+		let canvases = document.getElementsByTagName("canvas");
+		let textCanvas = canvases[1];
+
+		var x = event.targetTouches[0].pageX - textCanvas.offsetLeft;
+		var y = event.targetTouches[0].pageY - textCanvas.offsetTop;
+		window.game.handleTouchInput(x, y);
 	}
 	
 	handleTouchInput(x, y) {
-		console.log('Touch input happened at (' + x + ',' + y + ')');		
+		let descaledX = x / window.game.canvas.scrollWidth * window.game.canvas.width;
+		let descaledY = y / window.game.canvas.scrollHeight * window.game.canvas.height;
+
+		if (window.game.challenge) {
+			window.battleScreen.onTouchInput(descaledX, descaledY);
+		} else {
+			window.mapScreen.onTouchInput(descaledX, descaledY);
+		}
 	}
 	
 	init() {
 		window.loadingScreen.start(this.canvas, this.context, this.sprites);	
 		this.preLoadImages();
 		
-		this.canvas.addEventListener("touchstart", this.onTouchStart, false);
-        this.canvas.addEventListener("mousedown", this.onMouseDown, false);
-		document.addEventListener("mousedown", this.onMouseDown, false);
+		let canvases = document.getElementsByTagName("canvas");
+		let textCanvas = canvases[1];
+		textCanvas.addEventListener("touchstart", window.game.onTouchStart, false);
+        textCanvas.addEventListener("mousedown", window.game.onMouseDown, false);
 		
 		window.mapScreen = new MapScreen(this.canvas, this.context, this.sprites, this.staticImages);
 

@@ -17,7 +17,7 @@ class MapScreen
             this.generateRandomMonsterOfType("inequality");
         }
 
-        this.tileSize = 15;
+        this.tileSize = 16;
         
         for (let i = 0; i < 4; i++) {
             let x = random.int(1, 15);
@@ -72,37 +72,67 @@ class MapScreen
     onKeyDown(keyCode) {
         switch (keyCode) {
             case keyboard.UP:
-                if (this.player.y > 2) {                    
-                    if (!this.detectMonsterCollision(this.player.x, this.player.y - 1)) {
-                        this.player.y--;
-                        this.sortMapObjects();
-                    }
-                }
+                this.movePlayerUp();
                 break;
             case keyboard.DOWN:
-                if (this.player.y < 12) {
-                    if (!this.detectMonsterCollision(this.player.x, this.player.y + 1)) {
-                        this.player.y++;
-                        this.sortMapObjects();
-                    }
-                }
+                this.movePlayerDown();
                 break;
             case keyboard.RIGHT:
-                if (this.player.x < 17) {
-                    if (!this.detectMonsterCollision(this.player.x + 1, this.player.y)) {
-                        this.player.x++;
-                        this.sortMapObjects();
-                    }
-                }
+                this.movePlayerRight();
                 break;
             case keyboard.LEFT:
-                if (this.player.x > 1) {
-                    if (!this.detectMonsterCollision(this.player.x - 1, this.player.y)) {
-                        this.player.x--;
-                        this.sortMapObjects();
-                    }
-                }
+                this.movePlayerLeft();
                 break;
+        }
+    }
+
+    movePlayerRight() {
+        if (this.player.x < 17) {
+            if (!this.detectMonsterCollision(this.player.x + 1, this.player.y)) {
+                this.player.x++;
+                this.sortMapObjects();
+            }
+        }
+    }
+    movePlayerLeft() {
+        if (this.player.x > 1) {
+            if (!this.detectMonsterCollision(this.player.x - 1, this.player.y)) {
+                this.player.x--;
+                this.sortMapObjects();
+            }
+        }
+    }
+    movePlayerUp() {
+        if (this.player.y > 2) {                    
+            if (!this.detectMonsterCollision(this.player.x, this.player.y - 1)) {
+                this.player.y--;
+                this.sortMapObjects();
+            }
+        }
+    }
+    movePlayerDown() {
+        if (this.player.y < 12) {
+            if (!this.detectMonsterCollision(this.player.x, this.player.y + 1)) {
+                this.player.y++;
+                this.sortMapObjects();
+            }
+        }
+    }
+
+    onTouchInput(x, y) {        
+        let tileX = x / this.tileSize;
+        let tileY = y / this.tileSize;
+
+        let player = window.mapScreen.player;
+        if (tileX >= player.x + 1) {
+            window.mapScreen.movePlayerRight();
+        } else if (tileX <= player.x - 1) {
+            window.mapScreen.movePlayerLeft();
+        }
+        if (tileY >= player.y + 1) {
+            window.mapScreen.movePlayerDown();
+        } else if (tileY <= player.y - 1) {
+            window.mapScreen.movePlayerUp();
         }
     }
 
